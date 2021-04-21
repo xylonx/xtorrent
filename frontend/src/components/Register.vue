@@ -1,0 +1,160 @@
+<template>
+
+  <v-layout
+      wrap
+      align-center
+      justify-center
+      fill-height>
+    <v-container>
+      <validation-observer
+          ref="observer"
+          v-slot="{ invalid }"
+      >
+        <form
+            @submit.prevent="submit"
+        >
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-col cols="7">
+              <validation-provider
+                  v-slot="{errors}"
+                  name="email"
+                  rules="required|email"
+              >
+                <v-text-field
+                    v-model="email"
+                    :error-messages="errors"
+                    label="Email"
+                    required
+                    filled
+                    rounded
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+            <v-spacer></v-spacer>
+          </v-row>
+
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-col cols="7">
+              <validation-provider
+                  v-slot="{errors}"
+                  name="password"
+                  rules="required|min:8"
+              >
+                <v-text-field
+                    v-model="password"
+                    :error-messages="errors"
+                    label="password"
+                    :append-icon="show?'mdi-eye':'mdi-eye-off'"
+                    :type="show? 'text' : 'password'"
+                    hint="At lease 8 characters"
+                    @click:append="show = !show"
+                    required
+                    filled
+                    rounded
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+            <v-spacer></v-spacer>
+          </v-row>
+
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-col cols="7">
+              <validation-provider
+                  v-slot="{errors}"
+                  name="code"
+                  rules="required"
+              >
+                <v-text-field
+                    v-model="code"
+                    :error-messages="errors"
+                    label="code"
+                    required
+                    filled
+                    rounded
+                ></v-text-field>
+              </validation-provider>
+            </v-col>
+            <v-spacer></v-spacer>
+          </v-row>
+
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-btn
+                class="mr-10 pa-2"
+                type="submit"
+                :disabled="invalid"
+            >submit
+            </v-btn>
+            <v-btn
+                class="mr-4 pa-2"
+                @click="clear"
+            >clear
+            </v-btn>
+            <v-spacer></v-spacer>
+          </v-row>
+        </form>
+      </validation-observer>
+    </v-container>
+  </v-layout>
+
+
+</template>
+
+<script>
+import {required, email, min} from 'vee-validate/dist/rules'
+import {extend, ValidationObserver, ValidationProvider, setInteractionMode} from 'vee-validate'
+
+setInteractionMode("eager")
+
+extend('required', {
+  ...required,
+  message: '{_field_} can not be empty'
+})
+
+extend('min', {
+  ...min,
+  message: '{_field_} may not be less than {length} characters'
+})
+
+extend('email', {
+  ...email,
+  message: "Email must be valid",
+})
+
+export default {
+
+  name: "Register",
+
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
+
+  data: () => ({
+    valid: true,
+    email: "",
+    password: "",
+    code: "",
+    show: false,
+  }),
+
+  methods: {
+    submit() {
+      // click event
+      // window.alert(this.password)
+    },
+
+    clear() {
+      this.email = ""
+      this.password = ""
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

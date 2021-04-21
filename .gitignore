@@ -1,0 +1,8 @@
+backend/assert/
+backend/env/config.yaml
+backend/go.sum
+backend/.idea/
+
+frontend/.idea/
+frontend/dist/
+frontend/node_modules/
