@@ -17,14 +17,14 @@ func main() {
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{
-			"http://localhost:8080",
+			"*",
 		},
 	}))
-	
+
 	controller.RegisterLogFunc(e)
 	controller.RegisterTorrentFunc(e)
 	controller.RegisterTestFunc(e)
-
+	controller.RegisterCtrlFunc(e)
 
 	e.Server.Addr = ":5678"
 
@@ -33,13 +33,12 @@ func main() {
 	e.Logger.Fatal(gracehttp.Serve(e.Server))
 }
 
-
 func testTorrenthandle(context echo.Context) error {
 	var torrents []model.TorrentInfo
 
 	number := context.QueryParam("number")
 
-	if number ==  "2"{
+	if number == "2" {
 		for i := 0; i < 8; i++ {
 			torrent1 := model.TorrentInfo{
 				Magnet:      "xx",
@@ -50,7 +49,7 @@ func testTorrenthandle(context echo.Context) error {
 			}
 			torrents = append(torrents, torrent1)
 		}
-	}else {
+	} else {
 		for i := 0; i < 8; i++ {
 			torrent1 := model.TorrentInfo{
 				Magnet:      "lock",
@@ -62,7 +61,6 @@ func testTorrenthandle(context echo.Context) error {
 			torrents = append(torrents, torrent1)
 		}
 	}
-
 
 	return context.JSON(200, controller.TorrentQueryReturnMsg(16, torrents))
 }
