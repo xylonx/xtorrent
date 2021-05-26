@@ -2,7 +2,9 @@ package controller
 
 import (
 	"backend/env"
+	"backend/utils"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 	"log"
@@ -13,7 +15,7 @@ import (
 )
 
 func RegisterCtrlFunc(e *echo.Echo) {
-	e.PUT("/ctrl/config", updateConfigHandle)
+	e.PUT("/ctrl/config", updateConfigHandle, middleware.JWTWithConfig(utils.JwtConfig))
 }
 
 var updateLock = sync.Mutex{}
