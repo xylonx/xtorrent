@@ -1,0 +1,12 @@
+# FIXME: Remember to create config file named 'config.yaml' whose content format is like below.
+mongo:
+  address: ""
+  dbName: "xTorrent"
+  collectionNameTorrent: "torrentInfo"
+  collectionNameUser: "user"
+  collectionNameRegisterCode: "registerCode"
+
+jwt:
+  secret: ""
+  # the unit is Hour
+  expireDuration: 2
